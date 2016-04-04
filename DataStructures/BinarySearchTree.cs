@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
-    public class BinarySearchTree<T> where T :struct, IComparable
+    public class BinarySearchTree<K,V> where K :struct, IComparable
     {
-       Node<T> Root { get; set; }
-        public void Add(T value)
+       Node<K,V> Root { get; set; }
+        public void Add(K key, V value)
         {
-            var node = new Node<T>(value);
+            var node = new Node<K,V>(key, value);
             if (Root == null)
             {
                 Root = node;
@@ -21,12 +21,13 @@ namespace DataStructures
             var found = false;
             while(!found)
             {
-                var result = parent.Value.CompareTo(value);
-                if(result > 0)
+                var result = parent.Key.CompareTo(key);
+                if(result < 0)
                 {
                     if(parent.Right == null)
                     {
                         parent.Right = node;
+                        node.Parent = parent;
                         found = true;
                     }
                     else
@@ -34,11 +35,12 @@ namespace DataStructures
                         parent = parent.Right;
                     }
                 }
-                if (result < 0)
+                if (result > 0)
                 {
                     if (parent.Left == null)
                     {
                         parent.Left = node;
+                        node.Parent = parent;
                         found = true;
                     }
                     else
@@ -49,6 +51,22 @@ namespace DataStructures
                 if (result == 0) throw new ArgumentOutOfRangeException("value", "Duplicate Record Detected");
             }
         }
+        public IEnumerable<V> InOrderTraversal()
+        {
+            List<V> returnList = new List<V>();
+            Traverse(Root, n => {
+                returnList.Add(n.Value);
+            });
+            return returnList;
+        }
+        public void Traverse(Node<K,V> n, Action<Node<K,V>> action)
+        {
+            if (n == null) return;
+            Traverse(n.Left, action);
+            action(n);
+            Traverse(n.Right, action);
+        }
+        
     }
     
     
