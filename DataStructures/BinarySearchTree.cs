@@ -9,7 +9,7 @@ namespace DataStructures
     public class BinarySearchTree<K, V> where K : IComparable
     {
         Node<K, V> Root { get; set; }
-        public void Add(K key, V value)
+        public virtual void Add(K key, V value)
         {
             var node = new Node<K, V>(key, value);
             if (Root == null)

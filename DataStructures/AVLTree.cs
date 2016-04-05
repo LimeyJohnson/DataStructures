@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
-    public class AVLTree<K,V> : BinarySearchTree<K,V>
+    public class AVLTree<K,V> : BinarySearchTree<K,V> where K : IComparable
     {
+        public override void Add(K key, V value)
+        {
+            base.Add(key, value);
+        }
     }
 }
