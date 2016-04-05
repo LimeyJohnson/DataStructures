@@ -2,7 +2,7 @@
 
 namespace DataStructures
 {
-    public class Node<K,V> where K :struct
+    public class Node<K,V>
     {
         public Node<K,V> Left { get; set; }
         public Node<K,V> Right { get; set; }
